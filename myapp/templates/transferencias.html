@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Transferencias</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Enlace a Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <!-- Estilos personalizados -->
+    <style>
+        /* Estilos para la barra de navegación lateral */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            padding-top: 50px;
+            background-color: #343a40; /* Color de fondo de la barra lateral */
+            color: #ffffff; /* Color del texto de la barra lateral */
+            -webkit-text-size-adjust: 100%; /* Ajuste de tamaño de texto para navegadores WebKit */
+            text-size-adjust: 100%; /* Ajuste de tamaño de texto para navegadores compatibles */
+        }
+        .nav-link {
+            color: #ffffff; /* Color del texto de los enlaces de la barra lateral */
+        }
+        .content {
+            margin-left: 250px; /* Ancho de la barra lateral */
+            padding: 20px;
+        }
+        .logout-button {
+            color: #ffffff;
+            background-color: #dc3545; /* Color de fondo del botón */
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+        .logout-button:hover {
+            background-color: #c82333; /* Color de fondo del botón al pasar el mouse */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Barra de navegación lateral -->
+<div class="sidebar">
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link active" href="#"><i class="fas fa-user-circle"></i> Información de la cuenta</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-inbox"></i> Bandeja de entrada</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-paper-plane"></i> Bandeja de salida</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fas fa-file-upload"></i> Subir documentos PDF</a>
+        </li>
+        <li class="nav-item">
+            <button class="logout-button" onclick="logout()">Cerrar sesión</button>
+        </li>
+    </ul>
+</div>
+
+<!-- Contenido de la página -->
+<div class="content">
+    <h2>Transferencias Recientes</h2>
+    <!-- Aquí puedes mostrar la lista de transferencias recientes -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<!-- Enlace a Bootstrap JS (jQuery debe estar incluido antes) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    function logout() {
+        // Redirigir al usuario a la página de inicio
+        window.location.href = "/"; // Cambia "/" por la URL de tu página de inicio si es diferente
+    }
+</script>
+
+</body>
+</html>

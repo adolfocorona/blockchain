@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión - Mi Empresa</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            background-color: #e0e9f4; /* Color de fondo azul claro */
+            -webkit-text-size-adjust: 100%; /* Ajuste de tamaño de texto para navegadores WebKit */
+            text-size-adjust: 100%; /* Ajuste de tamaño de texto para navegadores compatibles */
+            margin: 0; /* Elimina los márgenes predeterminados del cuerpo */
+            padding: 0; /* Elimina los rellenos predeterminados del cuerpo */
+            overflow-x: hidden; /* Oculta la barra de desplazamiento horizontal */
+        }
+        .login-container {
+            display: flex; /* Utilizamos flexbox para el layout */
+            height: 100vh; /* Establecemos la altura del contenedor para que ocupe toda la pantalla */
+        }
+        .logo-container {
+            flex: 99; /* Que ocupe el 70% del espacio disponible */
+            background-image: url("../static/img/logo.jpg"); /* URL de la imagen del logo */
+            background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el contenedor */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+            background-position: center; /* Centra la imagen en el contenedor */
+        }
+        .login-form-container {
+            flex: 30; /* Que ocupe el 30% del espacio disponible */
+            padding: 40px; /* Espaciado interno */
+            box-sizing: border-box; /* Incluye el relleno y el borde en el ancho y alto del elemento */
+            display: flex; /* Utilizamos flexbox para el layout */
+            justify-content: center; /* Centra el contenido horizontalmente */
+            align-items: center; /* Centra el contenido verticalmente */
+        }
+        .login-form {
+            max-width: 400px; /* Ancho máximo del formulario */
+            width: 100%; /* Ancho del formulario */
+        }
+        .login-form h2 {
+            color: #007bff; /* Color del título */
+            margin-bottom: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <!-- Logo de la empresa -->
+    <div class="logo-container"></div>
+    <!-- Formulario de inicio de sesión -->
+    <div class="login-form-container">
+        <div class="container">
+            <h2>Iniciar sesión</h2>
+            <!-- Área para mostrar mensajes de error -->
+            <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+            <form class="login-form" action="/transferencias/" method="post">
+                <div class="form-group">
+                    <label for="username">Nombre de usuario</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Ingresa tu nombre de usuario">
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña">
+                </div>
+                <div class="form-group">
+                    <label for="userType">Selecciona tu tipo de usuario:</label>
+                    <select class="form-control" id="userType" name="userType" onchange="showHideFields()">
+                        <option value="cliente">Cliente</option>
+                        <option value="empleado">Empleado</option>
+                    </select>
+                </div>
+                <div class="form-group" id="clientIdField">
+                    <label for="clientId">Cliente ID:</label>
+                    <input type="text" class="form-control" id="clientId" name="clientId" placeholder="Ingresa tu Cliente ID">
+                </div>
+                <div class="form-group" id="employeeIdField" style="display: none;">
+                    <label for="employeeId">Empleado ID:</label>
+                    <input type="text" class="form-control" id="employeeId" name="employeeId" placeholder="Ingresa tu Empleado ID">
+                </div>
+                <!-- Agregar el token CSRF -->
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
+            </form>
+            <div class="signup-link">
+                <p>¿No tienes una cuenta? <a href="#" data-toggle="modal" data-target="#registerModal">Regístrate aquí</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Registro -->
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registerModalLabel">Registro</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="name">Nombre</label>
+              <input type="text" class="form-control" id="name" name="name" placeholder="Ingresa tu nombre" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Teléfono</label>
+              <input type="text" class="form-control" id="phone" name="phone" placeholder="Ingresa tu teléfono" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Correo electrónico</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa tu correo electrónico" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Contraseña</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+            </div>
+            <div class="form-group">
+              <label for="userType">Tipo de usuario</label>
+              <select class="form-control" id="userType" name="userType" onchange="showHideFields()" required>
+                <option value="cliente">Cliente</option>
+                <option value="empleado">Empleado</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Registrarse</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<!-- Enlace a Bootstrap JS (jQuery debe estar incluido antes) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // Función para mostrar u ocultar los campos de entrada según la opción seleccionada
+    function showHideFields() {
+        var userType = document.getElementById("userType").value;
+        var clientIdField = document.getElementById("clientIdField");
+        var employeeIdField = document.getElementById("employeeIdField");
+
+        if (userType === "cliente") {
+            clientIdField.style.display = "block";
+            employeeIdField.style.display = "none";
+        } else if (userType === "empleado") {
+            clientIdField.style.display = "none";
+            employeeIdField.style.display = "block";
+        }
+    }
+</script>
+
+</body>
+</html>

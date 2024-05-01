@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - LINZ CHAIN</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            /* Establecer el logo como fondo */
+            background-image: url("../static/img/logo.jpg");
+            background-size: cover; /* Ajustar el tamaño para cubrir toda la pantalla */
+            background-position: center; /* Centrar la imagen */
+            background-repeat: no-repeat; /* Evitar la repetición */
+        }
+
+        /* Resto del estilo permanece igual */
+        .container-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-img {
+            width: 250px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.1);
+        }
+
+        .content {
+            background-color: rgba(255, 255, 255, 0.7); /* Añadir un fondo semi-transparente */
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        footer {
+            margin-top: 280px;
+            text-align: center;
+            padding: 20px 0;
+            background-color: #343a40;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Barra de navegación -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">LINZ CHAIN</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="home/">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="aboutus/">Acerca de</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="services/">Servicios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contacto</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="login/">Iniciar sesión</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenido principal -->
+<div class="container-main">
+    <div class="logo-container">
+    </div>
+    <div class="content">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Bienvenido a LINZ CHAIN</h1>
+                <p>Somos una empresa dedicada a ofrecer soluciones innovadoras para tus necesidades empresariales.</p>
+                <a href="aboutus/" class="btn btn-primary">Ver más</a>
+            </div>
+            <div class="col-md-6">
+                <h2>Características Destacadas</h2>
+                <ul>
+                    <li>Simplificación de procesos de gestión de contratos</li>
+                    <li>Acceso seguro desde cualquier lugar</li>
+                    <li>Firma electrónica legalmente vinculante</li>
+                    <li>Interfaz intuitiva y fácil de usar</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <p>&copy; 2024 LINZ CHAIN. Todos los derechos reservados.</p>
+    </div>
+</footer>
+
+<!-- Enlace a Bootstrap JS (jQuery debe estar incluido antes) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- JavaScript para efecto de interacción -->
+<script>
+    // Obtener el elemento del logo
+    var logoImg = document.querySelector('.logo-img');
+
+    // Agregar evento de mouseover para aumentar el tamaño del logo
+    logoImg.addEventListener('mouseover', function() {
+        this.style.transform = 'scale(1.1)';
+    });
+
+    // Agregar evento de mouseout para volver al tamaño original del logo
+    logoImg.addEventListener('mouseout', function() {
+        this.style.transform = 'scale(1)';
+    });
+</script>
+</body>
+</html>
