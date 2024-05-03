@@ -36,6 +36,14 @@ def services_view(request):
     # Aquí se muestra una renderización básica de la plantilla 'transferencias.html'
     return render(request, 'services.html')
 
+def contact_view(request):
+    # Aquí puedes colocar la lógica para mostrar la página de transferencias
+    # Por ejemplo, podrías obtener datos de transferencias desde la base de datos
+    # y pasarlos a la plantilla para renderizarlos en la página
+
+    # Aquí se muestra una renderización básica de la plantilla 'transferencias.html'
+    return render(request, 'contact.html')
+
 def register_view(request):
     if request.method == 'POST':
         email = request.POST['email']

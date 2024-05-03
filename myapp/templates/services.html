@@ -8,46 +8,68 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Estilos personalizados -->
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            color: #333; /* Color del texto */
-            margin: 0; /* Elimina los márgenes predeterminados del cuerpo */
-            padding: 0; /* Elimina los rellenos predeterminados del cuerpo */
-            overflow-x: hidden; /* Oculta el desbordamiento horizontal */
-            position: relative; /* Ajusta la posición */
-            background-color: #f8f9fa; /* Fondo blanco */
-        }
-        .container {
-            max-width: 1200px; /* Ancho máximo del contenido */
-            margin: 0 auto; /* Centra el contenido horizontalmente */
-            padding: 20px; /* Espaciado interno */
-        }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 40px;
-            color: #007bff; /* Color azul */
+        .title-container {
             text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: #007bff; /* Color azul */
+            font-weight: bold; /* Negrita */
+            text-transform: uppercase; /* Mayúsculas */
+            letter-spacing: 2px; /* Espaciado entre letras */
         }
         .service {
-            margin-bottom: 60px; /* Espaciado inferior */
+            flex: 0 0 calc(33.333% - 20px); /* Establece el ancho de cada servicio */
+            margin-bottom: 40px; /* Espaciado inferior */
             text-align: center;
         }
+    
         .service img {
             max-width: 100%;
+            max-height: 200px; /* Establece una altura máxima para las imágenes */
+            height: auto; /* Permite que la altura se ajuste automáticamente */
             border-radius: 8px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
+    
         .service h2 {
             font-size: 2rem;
             margin-bottom: 20px;
             color: #007bff; /* Color azul */
         }
+    
         .service p {
             font-size: 1.1rem;
             line-height: 1.6;
             color: #666; /* Color del texto secundario */
         }
+    
+        .service-list {
+            text-align: left; /* Alinea la lista a la izquierda */
+            margin-top: 10px; /* Espaciado superior */
+        }
+    
+        .service-list li {
+            list-style-type: disc; /* Utiliza viñetas para los elementos de la lista */
+            margin-bottom: 5px; /* Espaciado inferior entre elementos */
+        }
+    
+        @media (max-width: 768px) {
+            .service {
+                flex-basis: calc(50% - 20px); /* Para pantallas más pequeñas, muestra 2 servicios por fila */
+            }
+        }
+    
+        @media (max-width: 576px) {
+            .service {
+                flex-basis: 100%; /* Para pantallas aún más pequeñas, muestra 1 servicio por fila */
+            }
+        }
     </style>
+    
+    
 </head>
 <body>
 
@@ -70,7 +92,7 @@
                     <a class="nav-link" href="/services">Servicios</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contacto</a>
+                    <a class="nav-link" href="/contact">Contacto</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/login">Iniciar sesión</a>
@@ -80,33 +102,50 @@
     </div>
 </nav>
 
-<!-- Contenido principal -->
 <div class="container mt-5">
-    <h1>Nuestros Servicios</h1>
+    <div class="title-container">
+        <h1 class="title">Nuestros Servicios</h1>
+    </div>
     <div class="row">
         <div class="col-lg-4 col-md-6">
             <div class="service">
-                <img src="https://via.placeholder.com/400x300" alt="Servicio 1">
-                <h2>Servicio 1</h2>
-                <p>Descripción del Servicio 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed faucibus ipsum nec diam sodales, a gravida eros eleifend.</p>
+                <img src="../static/img/imagen7.png" alt="Servicio 1">
+                <h2>Linzfirma básico</h2>
+                <ul class="service-list">
+                    <li>Poder validar 5 contratos al mes</li>
+                    <li>Espacio en ⁠linzcloud para guardar tus contratos hasta 25gb</li>
+                    <li>⁠Asistencia técnica con costo preferencial</li>
+                </ul>
             </div>
         </div>
         <div class="col-lg-4 col-md-6">
             <div class="service">
-                <img src="https://via.placeholder.com/400x300" alt="Servicio 2">
-                <h2>Servicio 2</h2>
-                <p>Descripción del Servicio 2. Sed vehicula odio a nisi rutrum, eu vehicula felis rutrum. Mauris eget rhoncus turpis.</p>
+                <img src="../static/img/imagen8.png" alt="Servicio 2">
+                <h2>Linzfirma empresarial </h2>
+                <ul class="service-list">
+                    <li>Poder validar hasta 100 contratos al mes</li>
+                    <li>Espacio en ⁠linzcloud para guardar tus contratos hasta 100gb</li>
+                    <li>⁠Asistencia técnica</li>
+                    <li>⁠Notificaciones en tiempo real del seguimiento del contrato</li>
+                </ul>
             </div>
         </div>
         <div class="col-lg-4 col-md-6">
             <div class="service">
-                <img src="https://via.placeholder.com/400x300" alt="Servicio 3">
-                <h2>Servicio 3</h2>
-                <p>Descripción del Servicio 3. Vestibulum at felis leo. Suspendisse potenti. Integer eget purus ac orci varius consequat.</p>
+                <img src="../static/img/imagen9.jpg" alt="Servicio 3">
+                <h2>Linzfirma premium</h2>
+                <ul class="service-list">
+                    <li>Poder validar más de 200 contratos al mes</li>
+                    <li>Espacio en ⁠linzcloud para guardar tus contratos hasta 200gb</li>
+                    <li>⁠Almacenamiento y buscador inteligente de contratos</li>
+                    <li>⁠Asistencia técnica 24/7</li>
+                    <li>⁠Notificaciones en tiempo real del seguimiento del contrato</li>
+                </ul>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Enlace a Bootstrap JS (jQuery debe estar incluido antes) -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
