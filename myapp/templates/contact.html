@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto - LINZ CHAIN</title>
+    <title>Contact - LINZ CHAIN</title>
     <!-- Enlace a Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Estilos personalizados -->
@@ -40,6 +40,10 @@
         .contact-info .row img {
             max-width: 100%; /* Ancho máximo de las imágenes */
             height: auto; /* Altura automática para mantener la proporción */
+            background-color: white; /* Fondo blanco para la imagen */
+            padding: 10px; /* Espaciado interno */
+            image-rendering: auto; /* Aplicar renderizado automático */
+            transform: translateZ(0); /* Aplicar transformación para mejorar la calidad */
         }
     </style>
 </head>
@@ -55,7 +59,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="http://127.0.0.1:8000/">Inicio</a>
+                    <a class="nav-link" href="/">Inicio</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/aboutus/">Acerca de</a>
@@ -80,7 +84,7 @@
     <div class="contact-info">
         <div class="row">
             <div class="col-md-6">
-                <img src="https://via.placeholder.com/400x250" alt="Oficina">
+                <img src="../static/img/itq.jpg" alt="Oficina">
             </div>
             <div class="col-md-6">
                 <h2>Oficina Principal</h2>
@@ -95,7 +99,7 @@
                 <p>Teléfono: +987 654 321<br> Email: regional@linzchain.com</p>
             </div>
             <div class="col-md-6">
-                <img src="https://via.placeholder.com/400x250" alt="Oficina Regional">
+                <img src="../static/img/logoitq.png" alt="Oficina Regional">
             </div>
         </div>
     </div>
