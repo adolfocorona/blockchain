@@ -174,6 +174,15 @@
                 <option value="2024">2024</option>
                 <!-- Agrega más años según sea necesario -->
             </select>
+            <label id="client-label" for="client" style="display: none;">Cliente:</label>
+            <select id="client" style="display: none;">
+                <option value="none">Seleccione una opción</option>
+                <option value="cliente1">Cliente 1</option>
+                <option value="cliente2">Cliente 2</option>
+                <option value="cliente3">Cliente 3</option>
+                <option value="cliente4">Cliente 4</option>
+                <option value="cliente5">Cliente 5</option>
+            </select>
             <button onclick="filtrarTransferencias()">Filtrar</button>
         </div>
         <div class="container-fluid">
@@ -220,6 +229,8 @@
     function mostrarContenidoSegunUsuario() {
         var userType = localStorage.getItem("userType");
         var additionalContentContainer = document.getElementById("additional-content-container");
+        var clientFilter = document.getElementById("client");
+        var clientLabel = document.getElementById("client-label");
         var contenido = "";
 
         if (userType === "cliente") {
@@ -229,7 +240,8 @@
                     <p>Aquí se muestra la información de los clientes...</p>
                 </div>
             `;
-            loadTransferencias('cliente'); // Cargar transferencias para el cliente
+            clientFilter.style.display = "none";
+            clientLabel.style.display = "none";
         } else if (userType === "empleado") {
             contenido = `
                 <div class="customers-list">
@@ -237,16 +249,13 @@
                     <p>Aquí se muestra la información de los empleados...</p>
                 </div>
             `;
-            loadTransferencias('empleado'); // Cargar transferencias para el empleado
+            clientFilter.style.display = "inline-block";
+            clientLabel.style.display = "inline-block";
         }
 
         additionalContentContainer.innerHTML = contenido;
+        loadTransferencias(userType);
     }
-
-    // Llama a la función cuando la página se carga
-    window.onload = function() {
-        mostrarContenidoSegunUsuario();
-    };
 
     // Función para cargar las transferencias (se podría cargar desde un API)
     function loadTransferencias(userType) {
@@ -284,6 +293,7 @@
         var userType = localStorage.getItem("userType");
         var month = document.getElementById('month').value;
         var year = document.getElementById('year').value;
+        var client = document.getElementById('client').value;
 
         var transferenciasCliente = [
             { fecha: '2024-01-15', monto: 100, descripcion: 'Pago de servicios' },
@@ -301,7 +311,8 @@
 
         var filteredTransferencias = transferencias.filter(function(transferencia) {
             var date = new Date(transferencia.fecha);
-            return (date.getMonth() + 1 === parseInt(month)) && (date.getFullYear() === parseInt(year));
+            var matchesClient = client === "none" || transferencia.descripcion.includes(client); // Supone que la descripción incluye el nombre del cliente
+            return (date.getMonth() + 1 === parseInt(month)) && (date.getFullYear() === parseInt(year)) && matchesClient;
         });
 
         var transferenciaList = document.querySelector('.transferencia-list');
@@ -358,6 +369,11 @@
         localStorage.clear();
         window.location.href = 'https://adolfocorona.github.io/blockchain/myapp/templates/login.html';
     }
+
+    // Llama a la función cuando la página se carga
+    window.onload = function() {
+        mostrarContenidoSegunUsuario();
+    };
 </script>
 
 </body>
