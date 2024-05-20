@@ -184,6 +184,7 @@
                 <option value="cliente5">Cliente 5</option>
             </select>
             <button onclick="filtrarTransferencias()">Filtrar</button>
+            <button onclick="showTransferencias()" class="btn btn-primary">Ver transferencias</button>
         </div>
         <div class="container-fluid">
             <div class="row">
@@ -209,12 +210,98 @@
         <div class="transferencia-list">
             <!-- Aquí se mostrarán las transferencias filtradas -->
         </div>
+
     </div>
 
     <!-- Clientes o Empleados, dependiendo del tipo de usuario -->
     <div id="additional-content-container">
         <!-- Este contenido se llenará según el tipo de usuario -->
     </div>
+
+    <div id="inbox" style="display: none;">
+        <h2>Bandeja de entrada</h2>
+        <ul class="message-list">
+            <!-- Ejemplo de mensaje con archivo adjunto -->
+            <li class="message-item">
+                Hola! Te envío el contrato para que lo firmes de favor. Revisa todo los términos!
+                <button class="btn btn-primary" onclick="openPDFModal('https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO%20DE%20ARRENDAMIENTO.pdf')">Abrir archivo</button>
+            </li>
+            <li class="message-item">
+                Hola, buen día, espero se encuentre bien! Te envío el contrato para que lo firmes de favor. Revisa todo los términos!
+                <button class="btn btn-primary" onclick="openPDFModal('https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO.pdf')">Abrir archivo</button>
+            </li>
+            <!-- Puedes agregar más mensajes con archivos adjuntos según sea necesario -->
+        </ul>
+        <button onclick="markAsRead()">Marcar como leídos</button>
+    </div>
+
+    <!-- Modal para la vista previa y edición del PDF -->
+    <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pdfModalLabel">Vista previa del PDF</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se muestra el PDF -->
+                    <canvas id="pdfCanvas"></canvas>
+                    <!-- Canvas para la firma -->
+                    <canvas id="signatureCanvas"></canvas>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="sendModifiedPDF()">Enviar</button>
+                    <button id="clearButton" type="button" class="btn btn-danger" onclick="clearSignature()">Borrar firma</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bandeja de salida -->
+    <div id="outbox" style="display: none;">
+        <h2>Bandeja de salida</h2>
+        <ul class="message-list">
+            <li class="message-item">Mensaje enviado a Cliente A</li>
+            <li class="message-item">
+                Hola Cliente B, espero esté teniendo buen día, me comunico para ver si podía revisar los términos de este contrato y hacernos favor de firmarlo. Cualquier aclaración no dude en contactarnos de favor. Saludos!
+                <a class="btn btn-primary" href="https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO%20DE%20ARRENDAMIENTO.pdf" target="_blank">Abrir archivo</a>
+            </li>
+            <li class="message-item">
+                Hola, ya le envié el documento firmado, me podrías hacer favor de revisarlo.
+                <a class="btn btn-primary" href="https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO_FIRMADO.pdf" target="_blank">Abrir archivo</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Contenedor para enviar archivos PDF -->
+    <div id="pdf-upload-container" style="display: none;">
+        <h2>Enviar Archivos PDF</h2>
+        <form id="pdf-upload-form">
+            <div class="form-group">
+                <label for="client-select">Cliente:</label>
+                <select class="form-control" id="client-select">
+                    <option value="cliente1">Cliente 1</option>
+                    <option value="cliente2">Cliente 2</option>
+                    <option value="cliente3">Cliente 3</option>
+                    <option value="cliente4">Cliente 4</option>
+                    <option value="cliente5">Cliente 5</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="message-description">Descripción del mensaje:</label>
+                <textarea class="form-control" id="message-description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="pdf-file">Seleccionar archivo PDF:</label>
+                <input type="file" class="form-control-file" id="pdf-file">
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+</div>
 </div>
 
 <!-- Enlace a Bootstrap JS -->
