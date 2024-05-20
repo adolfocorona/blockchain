@@ -99,6 +99,20 @@
             font-size: 12px;
             margin-left: 5px;
         }
+        .transferencia-item {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .transferencia-item h5 {
+            margin: 0;
+        }
+        .transferencia-item p {
+            margin: 0;
+            color: #555;
+        }
         #signatureCanvas {
             border: 1px solid #000;
             cursor: crosshair;
@@ -215,6 +229,7 @@
                     <p>Aquí se muestra la información de los clientes...</p>
                 </div>
             `;
+            loadTransferencias(); // Cargar transferencias para el cliente
         } else if (userType === "empleado") {
             contenido = `
                 <div class="customers-list">
@@ -232,17 +247,99 @@
         mostrarContenidoSegunUsuario();
     };
 
-    function logout() {
-        // Borrar el tipo de usuario de localStorage
-        localStorage.removeItem("userType");
-        // Redirigir a la página de inicio de sesión
-        window.location.href = "https://adolfocorona.github.io/blockchain/myapp/templates/home.html";
+    // Función para cargar transferencias para el cliente
+    function loadTransferencias() {
+        var transferencias = [
+            { fecha: '2024-01-15', monto: 100, descripcion: 'Pago de servicios' },
+            { fecha: '2024-02-20', monto: 250, descripcion: 'Compra en tienda' },
+            { fecha: '2024-03-05', monto: 150, descripcion: 'Transferencia a amigo' }
+        ];
+
+        var transferenciaList = document.querySelector('.transferencia-list');
+        transferenciaList.innerHTML = '';
+
+        transferencias.forEach(function(transferencia) {
+            var item = document.createElement('div');
+            item.className = 'transferencia-item';
+            item.innerHTML = `
+                <h5>${transferencia.descripcion}</h5>
+                <p>Fecha: ${transferencia.fecha}</p>
+                <p>Monto: $${transferencia.monto}</p>
+            `;
+            transferenciaList.appendChild(item);
+        });
     }
 
-    function filtrarTransferencias(){
+    // Función para filtrar transferencias
+    function filtrarTransferencias() {
+        var month = document.getElementById('month').value;
+        var year = document.getElementById('year').value;
+        var transferencias = [
+            { fecha: '2024-01-15', monto: 100, descripcion: 'Pago de servicios' },
+            { fecha: '2024-02-20', monto: 250, descripcion: 'Compra en tienda' },
+            { fecha: '2024-03-05', monto: 150, descripcion: 'Transferencia a amigo' }
+        ];
+
+        var filteredTransferencias = transferencias.filter(function(transferencia) {
+            var date = new Date(transferencia.fecha);
+            return (date.getMonth() + 1 === parseInt(month)) && (date.getFullYear() === parseInt(year));
+        });
+
+        var transferenciaList = document.querySelector('.transferencia-list');
+        transferenciaList.innerHTML = '';
+
+        filteredTransferencias.forEach(function(transferencia) {
+            var item = document.createElement('div');
+            item.className = 'transferencia-item';
+            item.innerHTML = `
+                <h5>${transferencia.descripcion}</h5>
+                <p>Fecha: ${transferencia.fecha}</p>
+                <p>Monto: $${transferencia.monto}</p>
+            `;
+            transferenciaList.appendChild(item);
+        });
+
         document.getElementById("income-container").style.display = "block";
         document.getElementById("expense-container").style.display = "block";
     }
+
+    // Función para mostrar las transferencias
+    function showTransferencias() {
+        document.getElementById('transferencias-container').style.display = 'block';
+        document.getElementById('inbox-container').style.display = 'none';
+        document.getElementById('outbox-container').style.display = 'none';
+        document.getElementById('pdf-uploader-container').style.display = 'none';
+    }
+
+    // Funciones para mostrar otras secciones (Bandeja de entrada, Bandeja de salida, Subir documentos PDF)
+    function showInbox() {
+        document.getElementById('transferencias-container').style.display = 'none';
+        document.getElementById('inbox-container').style.display = 'block';
+        document.getElementById('outbox-container').style.display = 'none';
+        document.getElementById('pdf-uploader-container').style.display = 'none';
+    }
+
+    function showOutbox() {
+        document.getElementById('transferencias-container').style.display = 'none';
+        document.getElementById('inbox-container').style.display = 'none';
+        document.getElementById('outbox-container').style.display = 'block';
+        document.getElementById('pdf-uploader-container').style.display = 'none';
+    }
+
+    function showPDFUploader() {
+        document.getElementById('transferencias-container').style.display = 'none';
+        document.getElementById('inbox-container').style.display = 'none';
+        document.getElementById('outbox-container').style.display = 'none';
+        document.getElementById('pdf-uploader-container').style.display = 'block';
+    }
+
+    // Función para cerrar sesión
+    function logout() {
+        // Limpiar localStorage y redirigir a la página de inicio de sesión
+        localStorage.clear();
+        window.location.href = 'https://adolfocorona.github.io/blockchain/myapp/templates/login.html';
+    }
 </script>
+
 </body>
 </html>
