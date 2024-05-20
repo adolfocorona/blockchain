@@ -229,7 +229,7 @@
                     <p>Aquí se muestra la información de los clientes...</p>
                 </div>
             `;
-            loadTransferencias(); // Cargar transferencias para el cliente
+            loadTransferencias('cliente'); // Cargar transferencias para el cliente
         } else if (userType === "empleado") {
             contenido = `
                 <div class="customers-list">
@@ -237,6 +237,7 @@
                     <p>Aquí se muestra la información de los empleados...</p>
                 </div>
             `;
+            loadTransferencias('empleado'); // Cargar transferencias para el empleado
         }
 
         additionalContentContainer.innerHTML = contenido;
@@ -247,13 +248,21 @@
         mostrarContenidoSegunUsuario();
     };
 
-    // Función para cargar transferencias para el cliente
-    function loadTransferencias() {
-        var transferencias = [
+    // Función para cargar las transferencias (se podría cargar desde un API)
+    function loadTransferencias(userType) {
+        var transferenciasCliente = [
             { fecha: '2024-01-15', monto: 100, descripcion: 'Pago de servicios' },
-            { fecha: '2024-02-20', monto: 250, descripcion: 'Renta' },
-            { fecha: '2024-03-05', monto: 150, descripcion: 'Pago diferido' }
+            { fecha: '2024-02-20', monto: 250, descripcion: 'Compra en tienda' },
+            { fecha: '2024-03-05', monto: 150, descripcion: 'Transferencia a amigo' }
         ];
+
+        var transferenciasEmpleado = [
+            { fecha: '2024-01-10', monto: 200, descripcion: 'Pago de nómina' },
+            { fecha: '2024-02-15', monto: 500, descripcion: 'Bonificación' },
+            { fecha: '2024-03-25', monto: 300, descripcion: 'Gastos de viaje' }
+        ];
+
+        var transferencias = userType === 'cliente' ? transferenciasCliente : transferenciasEmpleado;
 
         var transferenciaList = document.querySelector('.transferencia-list');
         transferenciaList.innerHTML = '';
@@ -272,13 +281,23 @@
 
     // Función para filtrar transferencias
     function filtrarTransferencias() {
+        var userType = localStorage.getItem("userType");
         var month = document.getElementById('month').value;
         var year = document.getElementById('year').value;
-        var transferencias = [
+
+        var transferenciasCliente = [
             { fecha: '2024-01-15', monto: 100, descripcion: 'Pago de servicios' },
             { fecha: '2024-02-20', monto: 250, descripcion: 'Compra en tienda' },
             { fecha: '2024-03-05', monto: 150, descripcion: 'Transferencia a amigo' }
         ];
+
+        var transferenciasEmpleado = [
+            { fecha: '2024-01-10', monto: 200, descripcion: 'Pago de nómina' },
+            { fecha: '2024-02-15', monto: 500, descripcion: 'Bonificación' },
+            { fecha: '2024-03-25', monto: 300, descripcion: 'Gastos de viaje' }
+        ];
+
+        var transferencias = userType === 'cliente' ? transferenciasCliente : transferenciasEmpleado;
 
         var filteredTransferencias = transferencias.filter(function(transferencia) {
             var date = new Date(transferencia.fecha);
