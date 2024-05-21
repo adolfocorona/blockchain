@@ -286,7 +286,7 @@
 
     // Función para mostrar la bandeja de entrada
     function showInbox() {
-        const tipoUsuario = localStorage.getItem('tipoUsuario');
+        const tipoUsuario = localStorage.getItem('userType');
         document.getElementById('transferencias-container').style.display = 'none';
         document.getElementById('inbox-container').style.display = 'block';
         document.getElementById('outbox-container').style.display = 'none';
@@ -308,7 +308,7 @@
 
     // Función para mostrar la bandeja de salida
     function showOutbox() {
-        const tipoUsuario = localStorage.getItem('tipoUsuario');
+        const tipoUsuario = localStorage.getItem('userType');
         document.getElementById('transferencias-container').style.display = 'none';
         document.getElementById('inbox-container').style.display = 'none';
         document.getElementById('outbox-container').style.display = 'block';
