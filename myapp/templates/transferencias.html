@@ -283,12 +283,12 @@
 
         if (tipoUsuario === 'cliente') {
             // Cargar mensajes específicos para clientes
-            inboxMessages.innerHTML += '<li class="message-item">Hola Ricardo! Te envío el contrato para que lo firmes de favor. Revisa todo los términos!<button class="btn btn-primary" onclick="openPDFModal("https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO%20DE%20ARRENDAMIENTO.pdf")">Abrir archivo</button></li>'
-            inboxMessages.innerHTML += '<li class="message-item">Hola, buen día, espero se encuentre bien! Te envío el contrato para que lo firmes de favor. Revisa todo los términos!<button class="btn btn-primary" onclick="openPDFModal("https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO.pdf")">Abrir archivo</button></li>';
+            inboxMessages.innerHTML += '<li class="message-item">Mensaje de Kelly Cruz: <br>Hola Ricardo! Te envío el contrato para que lo firmes de favor. Revisa todo los términos!<button class="btn btn-primary" onclick="openPDFModal("https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO%20DE%20ARRENDAMIENTO.pdf")">Abrir archivo</button></li>'
+            inboxMessages.innerHTML += '<li class="message-item">Mensaje de Carlos: <br>Hola, buen día, espero se encuentre bien! Te envío el contrato para que lo firmes de favor. Revisa todo los términos!<button class="btn btn-primary" onclick="openPDFModal("https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO.pdf")">Abrir archivo</button></li>';
         } else if (tipoUsuario === 'empleado') {
             // Cargar mensajes específicos para empleados
             inboxMessages.innerHTML += '<li class="message-item">Mensaje de PR CALIBRADORES: <br>Hola Kelly, ya le envié el documento firmado, me podrías hacer favor de revisarlo.<a class="btn btn-primary" href="https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO_FIRMADO.pdf" target="_blank">Abrir archivo</a></li>';
-            inboxMessages.innerHTML += '<li class="message-item">MEHola Kelly, espero esté teniendo buen día, me comunico para ver si podía revisar los términos de este contrato y hacernos favor de firmarlo. Cualquier aclaración no dude en contactarnos de favor. Saludos!<a class="btn btn-primary" href="https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO%20DE%20ARRENDAMIENTO.pdf" target="_blank">Abrir archivo</a></li>';
+            inboxMessages.innerHTML += '<li class="message-item">Mensaje de Ricardo Esparza: <br>Hola Kelly, espero esté teniendo buen día, me comunico para ver si podía revisar los términos de este contrato y hacernos favor de firmarlo. Cualquier aclaración no dude en contactarnos de favor. Saludos!<a class="btn btn-primary" href="https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO%20DE%20ARRENDAMIENTO.pdf" target="_blank">Abrir archivo</a></li>';
         }
     }
 
@@ -306,11 +306,11 @@
         if (tipoUsuario === 'cliente') {
             // Cargar mensajes específicos para clientes
             outboxMessages.innerHTML += '<li class="message-item">Hola Ricardo! Te envío el contrato para que lo firmes de favor. Revisa todo los términos!<button class="btn btn-primary" onclick="openPDFModal("https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO%20DE%20ARRENDAMIENTO.pdf")">Abrir archivo</button></li>';
-            outboxMessages.innerHTML += '<li class="message-item">Mensaje enviado por cliente 2</li>';
+            outboxMessages.innerHTML += '<li class="message-item">Hola buen día, le mando el pago correspondiente por los gastos de servicio de 9000 MXN';
         } else if (tipoUsuario === 'empleado') {
             // Cargar mensajes específicos para empleados
             outboxMessages.innerHTML += '<li class="message-item">Mensaje para PR CALIBRADORES: <br>Hola buen dia, espero esté teniendo buen día, me comunico para ver si podía revisar los términos de este contrato y hacernos favor de firmarlo. Cualquier aclaración no dude en contactarnos de favor. Saludos!<a class="btn btn-primary" href="https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO%20DE%20ARRENDAMIENTO.pdf" target="_blank">Abrir archivo</a></li>';
-            outboxMessages.innerHTML += '<li class="message-item">Mensaje enviado por empleado 2</li>';
+            outboxMessages.innerHTML += '<li class="message-item">Hola Ricardo! Te envío el contrato para que lo firmes de favor. Revisa todo los términos!<button class="btn btn-primary" onclick="openPDFModal("https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO%20DE%20ARRENDAMIENTO.pdf")">Abrir archivo</button></li>';
         }
     }
 
@@ -329,6 +329,55 @@
         // Aquí iría la lógica para enviar el PDF
         console.log(`Enviando PDF a ${clientSelect.value} con descripción: ${messageDescription.value}`);
     }
+
+    // Función para filtrar transferencias
+    function filtrarTransferencias() {
+        var userType = localStorage.getItem("userType");
+        var month = document.getElementById('month').value;
+        var year = document.getElementById('year').value;
+        var client = document.getElementById('client').value;
+
+        var transferenciasCliente = [
+            { fecha: '2024-01-15', monto: 100, descripcion: 'Pago de servicios' },
+            { fecha: '2024-02-20', monto: 250, descripcion: 'Compra en tienda' },
+            { fecha: '2024-03-05', monto: 150, descripcion: 'Transferencia a amigo' }
+        ];
+
+        var transferenciasEmpleado = [
+            { fecha: '2024-01-10', monto: 200, descripcion: 'Pago de nómina' },
+            { fecha: '2024-02-15', monto: 500, descripcion: 'Bonificación' },
+            { fecha: '2024-03-25', monto: 300, descripcion: 'Gastos de viaje' }
+        ];
+
+        var transferencias = userType === 'cliente' ? transferenciasCliente : transferenciasEmpleado;
+
+        var filteredTransferencias = transferencias.filter(function(transferencia) {
+            var date = new Date(transferencia.fecha);
+            var matchesClient = client === "none" || transferencia.descripcion.includes(client); // Supone que la descripción incluye el nombre del cliente
+            return (date.getMonth() + 1 === parseInt(month)) && (date.getFullYear() === parseInt(year)) && matchesClient;
+        });
+
+        var transferenciaList = document.querySelector('.transferencia-list');
+        transferenciaList.innerHTML = '';
+
+        filteredTransferencias.forEach(function(transferencia) {
+            var item = document.createElement('div');
+            item.className = 'transferencia-item';
+            item.innerHTML = `
+                <h5>${transferencia.descripcion}</h5>
+                <p>Fecha: ${transferencia.fecha}</p>
+                <p>Monto: $${transferencia.monto}</p>
+            `;
+            transferenciaList.appendChild(item);
+        });
+
+        document.getElementById("income-container").style.display = "block";
+        document.getElementById("expense-container").style.display = "block";
+    }
+
+    window.onload = function() {
+        mostrarContenidoSegunUsuario();
+    };
 
     document.addEventListener('DOMContentLoaded', mostrarContenidoSegunUsuario);
 </script>
