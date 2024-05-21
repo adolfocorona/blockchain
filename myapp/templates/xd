@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Transferencias</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Enlace a Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <!-- Estilos personalizados -->
+    <style>
+        /* Estilos para la barra de navegación lateral */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            padding-top: 50px;
+            background-color: #343a40;
+            color: #ffffff;
+            text-size-adjust: 100%;
+        }
+        .nav-link {
+            color: #ffffff;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
+        .logout-button {
+            color: #ffffff;
+            background-color: #dc3545;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+            text-align: left;
+            transition: background-color 0.3s ease;
+        }
+        .logout-button:hover {
+            background-color: #c82333;
+        }
+        .filters-container {
+            margin-bottom: 20px;
+        }
+        .customers-list {
+            margin-top: 20px;
+        }
+        .container-fluid {
+            margin-top: 20px;
+        }
+        .income-container,
+        .expense-container {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .income-container h3,
+        .expense-container h3 {
+            color: #007bff;
+        }
+        .total-amount {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .customer-list-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .message-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .message-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .message-item:last-child {
+            border-bottom: none;
+        }
+        .message-icon {
+            margin-right: 10px;
+        }
+        .unread-count {
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 5px 8px;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+        .transferencia-item {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .transferencia-item h5 {
+            margin: 0;
+        }
+        .transferencia-item p {
+            margin: 0;
+            color: #555;
+        }
+        #signatureCanvas {
+            border: 1px solid #000;
+            cursor: crosshair;
+        }
+        #clearButton {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Barra de navegación lateral -->
+<div class="sidebar">
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link active" onclick="showTransferencias()" href="#"><i class="fas fa-user-circle"></i> Información de la cuenta</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" onclick="showInbox()"><i class="fas fa-inbox"></i> Bandeja de entrada<span id="unread-count" class="unread-count">3</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" onclick="showOutbox()"><i class="fas fa-paper-plane"></i> Bandeja de salida</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#" onclick="showPDFUploader()"><i class="fas fa-file-upload"></i> Subir documentos PDF</a>
+        </li>
+        <li class="nav-item">
+            <button class="logout-button" onclick="logout()">Cerrar sesión</button>
+        </li>
+    </ul>
+</div>
+
+<!-- Contenido de la página -->
+<div class="content">
+    <!-- Transferencias Recientes -->
+    <div id="transferencias-container">
+        <h2>Transferencias Recientes</h2>
+        <!-- Filtros -->
+        <div class="filters-container">
+            <label for="month">Mes:</label>
+            <select id="month">
+                <option value="01">Enero</option>
+                <option value="02">Febrero</option>
+                <option value="03">Marzo</option>
+                <option value="04">Abril</option>
+                <option value="05">Mayo</option>
+                <option value="06">Junio</option>
+                <option value="07">Julio</option>
+                <option value="08">Agosto</option>
+                <option value="09">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+            </select>
+            <label for="year">Año:</label>
+            <select id="year">
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <!-- Agrega más años según sea necesario -->
+            </select>
+            <label id="client-label" for="client" style="display: none;">Cliente:</label>
+            <select id="client" style="display: none;">
+                <option value="none">Seleccione una opción</option>
+                <option value="cliente1">FEMSA SA DE CV</option>
+                <option value="cliente2">PR CALIBRADORES</option>
+                <option value="cliente3">SAGSA</option>
+                <option value="cliente4">José Torres</option>
+                <option value="cliente5">Ricardo Esparza</option>
+            </select>
+            <button onclick="filtrarTransferencias()">Filtrar</button>
+            <button onclick="mostrarContenidoSegunUsuario()" class="btn btn-primary">Ver transferencias</button>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Contenedor de ingresos mensuales -->
+                <div class="col-md-6">
+                    <div class="income-container" id="income-container" style="display: none;">
+                        <h3>Ingresos Mensuales</h3>
+                        <div class="total-amount">Total: MXN 15,000</div>
+                        <!-- Aquí puedes mostrar la lista de ingresos mensuales -->
+                    </div>
+                </div>
+                <!-- Contenedor de egresos mensuales -->
+                <div class="col-md-6">
+                    <div class="expense-container" id="expense-container" style="display: none;">
+                        <h3>Egresos Mensuales</h3>
+                        <div class="total-amount">Total: MXN 10,000</div>
+                        <!-- Aquí puedes mostrar la lista de egresos mensuales -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Transferencias -->
+        <div class="transferencia-list">
+            <!-- Aquí se mostrarán las transferencias filtradas -->
+        </div>
+
+    </div>
+
+    <!-- Clientes o Empleados, dependiendo del tipo de usuario -->
+    <div id="additional-content-container">
+        <!-- Este contenido se llenará según el tipo de usuario -->
+    </div>
+
+    <div id="inbox-container" style="display: none;">
+        <h2>Bandeja de entrada</h2>
+        <ul class="message-list">
+            <!-- Ejemplo de mensaje con archivo adjunto -->
+            <li class="message-item">
+                Hola! Te envío el contrato para que lo firmes de favor. Revisa todo los términos!
+                <button class="btn btn-primary" onclick="openPDFModal('https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO%20DE%20ARRENDAMIENTO.pdf')">Abrir archivo</button>
+            </li>
+            <li class="message-item">
+                Hola, buen día, espero se encuentre bien! Te envío el contrato para que lo firmes de favor. Revisa todo los términos!
+                <button class="btn btn-primary" onclick="openPDFModal('https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO.pdf')">Abrir archivo</button>
+            </li>
+            <!-- Puedes agregar más mensajes con archivos adjuntos según sea necesario -->
+        </ul>
+        <button onclick="markAsRead()">Marcar como leídos</button>
+    </div>
+
+    <!-- Modal para la vista previa y edición del PDF -->
+    <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pdfModalLabel">Vista previa del PDF</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se muestra el PDF -->
+                    <canvas id="pdfCanvas"></canvas>
+                    <!-- Canvas para la firma -->
+                    <canvas id="signatureCanvas"></canvas>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="sendModifiedPDF()">Enviar</button>
+                    <button id="clearButton" type="button" class="btn btn-danger" onclick="clearSignature()">Borrar firma</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bandeja de salida -->
+    <div id="outbox-container" style="display: none;">
+        <h2>Bandeja de salida</h2>
+        <ul class="message-list">
+            <li class="message-item">Mensaje enviado a Cliente A</li>
+            <li class="message-item">
+                Hola Cliente B, espero esté teniendo buen día, me comunico para ver si podía revisar los términos de este contrato y hacernos favor de firmarlo. Cualquier aclaración no dude en contactarnos de favor. Saludos!
+                <a class="btn btn-primary" href="https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO%20DE%20ARRENDAMIENTO.pdf" target="_blank">Abrir archivo</a>
+            </li>
+            <li class="message-item">
+                Hola, ya le envié el documento firmado, me podrías hacer favor de revisarlo.
+                <a class="btn btn-primary" href="https://adolfocorona.github.io/blockchain/myapp/static/pdf/CONTRATO_FIRMADO.pdf" target="_blank">Abrir archivo</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Contenedor para enviar archivos PDF -->
+    <div id="pdf-uploader-container" style="display: none;">
+        <h2>Enviar Archivos PDF</h2>
+        <form id="pdf-upload-form">
+            <div class="form-group">
+                <label for="client-select">Cliente:</label>
+                <select class="form-control" id="client-select">
+                    <option value="cliente1">Cliente 1</option>
+                    <option value="cliente2">Cliente 2</option>
+                    <option value="cliente3">Cliente 3</option>
+                    <option value="cliente4">Cliente 4</option>
+                    <option value="cliente5">Cliente 5</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="message-description">Descripción del mensaje:</label>
+                <textarea class="form-control" id="message-description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="pdf-file">Seleccionar archivo PDF:</label>
+                <input type="file" class="form-control-file" id="pdf-file">
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+</div>
+</div>
+
+<!-- Enlace a Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Enlace a Font Awesome JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+<!-- Enlace a jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script>
+    // Función para leer el tipo de usuario desde localStorage y mostrar contenido apropiado
+    function mostrarContenidoSegunUsuario() {
+        var userType = localStorage.getItem("userType");
+        var additionalContentContainer = document.getElementById("additional-content-container");
+        var clientFilter = document.getElementById("client");
+        var clientLabel = document.getElementById("client-label");
+        var contenido = "";
+
+        if (userType === "cliente") {
+            contenido = `
+            `;
+            clientFilter.style.display = "none";
+            clientLabel.style.display = "none";
+        } else if (userType === "empleado") {
+            contenido = `
+            `;
+            clientFilter.style.display = "inline-block";
+            clientLabel.style.display = "inline-block";
+        }
+
+        additionalContentContainer.innerHTML = contenido;
+        loadTransferencias(userType);
+    }
+
+    // Función para cargar las transferencias (se podría cargar desde un API)
+    function loadTransferencias(userType) {
+        var transferenciasCliente = [
+            { fecha: '2024-01-15', monto: 100, descripcion: 'Pago de servicios' },
+            { fecha: '2024-02-20', monto: 250, descripcion: 'Gastos de material' },
+            { fecha: '2024-03-05', monto: 150, descripcion: 'Pago diferido' }
+        ];
+
+        var transferenciasEmpleado = [
+            { fecha: '2024-01-10', monto: 200, descripcion: 'Pago de nómina' },
+            { fecha: '2024-02-15', monto: 500, descripcion: 'Renta FEMSA SA DE CV' },
+            { fecha: '2024-03-25', monto: 300, descripcion: 'Gastos de viaje' }
+        ];
+
+        var transferencias = userType === 'cliente' ? transferenciasCliente : transferenciasEmpleado;
+
+        var transferenciaList = document.querySelector('.transferencia-list');
+        transferenciaList.innerHTML = '';
+
+        transferencias.forEach(function(transferencia) {
+            var item = document.createElement('div');
+            item.className = 'transferencia-item';
+            item.innerHTML = `
+                <h5>${transferencia.descripcion}</h5>
+                <p>Fecha: ${transferencia.fecha}</p>
+                <p>Monto: $${transferencia.monto}</p>
+            `;
+            transferenciaList.appendChild(item);
+        });
+    }
+
+    // Función para filtrar transferencias
+    function filtrarTransferencias() {
+        var userType = localStorage.getItem("userType");
+        var month = document.getElementById('month').value;
+        var year = document.getElementById('year').value;
+        var client = document.getElementById('client').value;
+
+        var transferenciasCliente = [
+            { fecha: '2024-01-15', monto: 100, descripcion: 'Pago de servicios' },
+            { fecha: '2024-02-20', monto: 250, descripcion: 'Compra en tienda' },
+            { fecha: '2024-03-05', monto: 150, descripcion: 'Transferencia a amigo' }
+        ];
+
+        var transferenciasEmpleado = [
+            { fecha: '2024-01-10', monto: 200, descripcion: 'Pago de nómina' },
+            { fecha: '2024-02-15', monto: 500, descripcion: 'Bonificación' },
+            { fecha: '2024-03-25', monto: 300, descripcion: 'Gastos de viaje' }
+        ];
+
+        var transferencias = userType === 'cliente' ? transferenciasCliente : transferenciasEmpleado;
+
+        var filteredTransferencias = transferencias.filter(function(transferencia) {
+            var date = new Date(transferencia.fecha);
+            var matchesClient = client === "none" || transferencia.descripcion.includes(client); // Supone que la descripción incluye el nombre del cliente
+            return (date.getMonth() + 1 === parseInt(month)) && (date.getFullYear() === parseInt(year)) && matchesClient;
+        });
+
+        var transferenciaList = document.querySelector('.transferencia-list');
+        transferenciaList.innerHTML = '';
+
+        filteredTransferencias.forEach(function(transferencia) {
+            var item = document.createElement('div');
+            item.className = 'transferencia-item';
+            item.innerHTML = `
+                <h5>${transferencia.descripcion}</h5>
+                <p>Fecha: ${transferencia.fecha}</p>
+                <p>Monto: $${transferencia.monto}</p>
+            `;
+            transferenciaList.appendChild(item);
+        });
+
+        document.getElementById("income-container").style.display = "block";
+        document.getElementById("expense-container").style.display = "block";
+    }
+
+    // Función para mostrar las transferencias
+    function showTransferencias() {
+        document.getElementById('transferencias-container').style.display = 'block';
+        document.getElementById('inbox-container').style.display = 'none';
+        document.getElementById('outbox-container').style.display = 'none';
+        document.getElementById('pdf-uploader-container').style.display = 'none';
+    }
+
+    // Funciones para mostrar otras secciones (Bandeja de entrada, Bandeja de salida, Subir documentos PDF)
+    function showInbox() {
+        document.getElementById('transferencias-container').style.display = 'none';
+        document.getElementById('inbox-container').style.display = 'block';
+        document.getElementById('outbox-container').style.display = 'none';
+        document.getElementById('pdf-uploader-container').style.display = 'none';
+    }
+
+    function showOutbox() {
+        document.getElementById('transferencias-container').style.display = 'none';
+        document.getElementById('inbox-container').style.display = 'none';
+        document.getElementById('outbox-container').style.display = 'block';
+        document.getElementById('pdf-uploader-container').style.display = 'none';
+    }
+
+    function showPDFUploader() {
+        document.getElementById('transferencias-container').style.display = 'none';
+        document.getElementById('inbox-container').style.display = 'none';
+        document.getElementById('outbox-container').style.display = 'none';
+        document.getElementById('pdf-uploader-container').style.display = 'block';
+    }
+
+    // Función para cerrar sesión
+    function logout() {
+        // Limpiar localStorage y redirigir a la página de inicio de sesión
+        localStorage.clear();
+        window.location.href = 'https://adolfocorona.github.io/blockchain/myapp/templates/login.html';
+    }
+
+    // Llama a la función cuando la página se carga
+    window.onload = function() {
+        mostrarContenidoSegunUsuario();
+    };
+</script>
+
+</body>
+</html>
