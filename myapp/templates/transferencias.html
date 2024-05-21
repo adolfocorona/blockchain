@@ -93,6 +93,14 @@
             margin: 0;
             color: #555;
         }
+        .unread-count {
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 5px 8px;
+            font-size: 12px;
+            margin-left: 5px;
+        }
         #signatureCanvas {
             border: 1px solid #000;
             cursor: crosshair;
@@ -316,8 +324,10 @@
 
     // Simulación de lectura de mensajes
     function markAsRead() {
-        const unreadCount = document.getElementById('unread-count');
-        unreadCount.style.display = 'none';
+        // Simular la acción de marcar mensajes como leídos
+        document.getElementById("unread-count").textContent = "0";
+        // Puedes agregar aquí la lógica real si estás conectado a una base de datos o sistema de backend
+        alert("Mensajes marcados como leídos.");
     }
 
     // Simulación de envío de PDF
@@ -373,6 +383,42 @@
 
         document.getElementById("income-container").style.display = "block";
         document.getElementById("expense-container").style.display = "block";
+    }
+
+    function openPDFModal(pdfFileName) {
+        // Obtener el canvas para mostrar el PDF
+        var pdfCanvas = document.getElementById('pdfCanvas');
+        var ctx = pdfCanvas.getContext('2d');
+
+        // Cargar el PDF
+        var pdfDoc = null;
+        var pageNum = 1;
+        var scale = 1;
+
+        // Renderizar la página actual
+        function renderPage(num) {
+            pdfDoc.getPage(num).then(function(page) {
+                var viewport = page.getViewport({ scale: scale });
+                pdfCanvas.height = viewport.height;
+                pdfCanvas.width = viewport.width;
+
+                var renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                page.render(renderContext);
+            });
+        }
+
+        // Asynchronously download PDF as an ArrayBuffer
+        var loadingTask = pdfjsLib.getDocument(pdfFileName);
+        loadingTask.promise.then(function(pdf) {
+            pdfDoc = pdf;
+            renderPage(pageNum);
+        });
+
+        // Mostrar el modal
+        $('#pdfModal').modal('show');
     }
 
     window.onload = function() {
