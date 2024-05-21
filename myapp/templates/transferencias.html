@@ -193,6 +193,31 @@
         </div>
     </div>
 
+    <!-- Modal para la vista previa y edición del PDF -->
+    <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pdfModalLabel">Vista previa del PDF</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Aquí se muestra el PDF -->
+                    <canvas id="pdfCanvas"></canvas>
+                    <!-- Canvas para la firma -->
+                    <canvas id="signatureCanvas"></canvas>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="sendModifiedPDF()">Enviar</button>
+                    <button id="clearButton" type="button" class="btn btn-danger" onclick="clearSignature()">Borrar firma</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bandeja de entrada -->
     <div id="inbox-container" style="display: none;">
         <h2>Bandeja de entrada</h2>
