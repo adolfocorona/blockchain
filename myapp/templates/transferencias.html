@@ -270,6 +270,7 @@
     }
 
     function showPDFUploader() {
+        const userType = localStorage.getItem('userType');
         const pdfUploaderContainer = document.getElementById('pdf-uploader-container');
         const clientLabel = document.getElementById('client-label');
         const clientSelect = document.getElementById('client-select');
