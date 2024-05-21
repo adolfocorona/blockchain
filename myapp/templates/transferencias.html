@@ -270,6 +270,27 @@
     }
 
     function showPDFUploader() {
+        const pdfUploaderContainer = document.getElementById('pdf-uploader-container');
+        const clientLabel = document.getElementById('client-label');
+        const clientSelect = document.getElementById('client-select');
+
+        if (userType === 'cliente') {
+            clientLabel.textContent = 'Para:';
+            clientSelect.innerHTML = `
+                <option value="contacto1">Contacto 1</option>
+                <option value="contacto2">Contacto 2</option>
+                <option value="contacto3">Contacto 3</option>
+            `;
+        } else {
+            clientLabel.textContent = 'Cliente:';
+            clientSelect.innerHTML = `
+                <option value="cliente1">FEMSA SA DE CV</option>
+                <option value="cliente2">PR CALIBRADORES</option>
+                <option value="cliente3">SAGSA</option>
+                <option value="cliente4">José Torres</option>
+                <option value="cliente5">Ricardo Esparza</option>
+            `;
+        }
         document.getElementById('transferencias-container').style.display = 'none';
         document.getElementById('inbox-container').style.display = 'none';
         document.getElementById('outbox-container').style.display = 'none';
