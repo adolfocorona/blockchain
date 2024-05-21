@@ -256,7 +256,7 @@
                 <label for="pdf-file">Seleccionar archivo PDF:</label>
                 <input type="file" class="form-control-file" id="pdf-file" accept=".pdf">
             </div>
-            <button type="button" class="btn btn-primary" onclick="sendPDF()">Enviar</button>
+            <button type="button" class="btn btn-primary" onclick="showConfirmationPopup()">Enviar</button>
         </form>
     </div>
 </div>
@@ -498,6 +498,16 @@
         context.stroke();
         context.closePath();
     }
+
+    function showConfirmationPopup() {
+    // Mostrar el popup de confirmación
+    if (confirm("¿Estás seguro de que deseas enviar el PDF?")) {
+        // Si el usuario confirma, llamar a la función sendPDF()
+        sendPDF();
+    } else {
+        // Si el usuario cancela, no hacer nada
+    }
+}
 
     // Manejar el envío del formulario de subida de PDF
     document.getElementById("pdf-upload-form").addEventListener("submit", function(event) {
