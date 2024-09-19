@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.ejemplo.com/cliente"
+           xmlns="http://www.ejemplo.com/cliente"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+    <xs:element name="Cliente">
+        <xs:annotation>
+            <xs:documentation>Información del Cliente</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="clientID">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:pattern value="PRO-[0-9]{4}"/>
+						</xs:restriction>
+					</xs:simpleType>          
+                </xs:element>
+                <xs:element name="clientName">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="[a-zA-Z]{15}"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="clientTel">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="[0-9]{10}"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:element>
+                <xs:element name="clientAddress" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+
+        <xs:unique name="clientUniqueID">
+            <xs:selector xpath="."/>
+            <xs:field xpath="clientID"/>
+        </xs:unique>
+    </xs:element>
+
+</xs:schema>
